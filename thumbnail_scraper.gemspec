@@ -2,7 +2,7 @@
 require File.expand_path('../lib/thumbnail_scraper/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Jan Filipowski"]
+  gem.authors       = ["Jeppe Liisberg", "Jan Filipowski"]
   gem.email         = ["jachuf@gmail.com"]
   gem.description   = %q{detect, fetch and generate a thumbnail for any url and store it on s3}
   gem.summary       = %q{detect, fetch and generate a thumbnail for any url and store it on s3}
