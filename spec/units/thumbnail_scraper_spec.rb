@@ -1,11 +1,11 @@
-require 'thumbnail_fu_helper'
-require 'thumbnail_fu'
+require 'thumbnail_scraper_helper'
+require 'thumbnail_scraper'
 
-module ThumbnailFu
-  describe ThumbnailFu do
+module ThumbnailScraper
+  describe ThumbnailScraper do
     before :each do
       @http_receiver = mock("http receiver mock")
-      @thumbnail_fu = ThumbnailFu.new(@http_receiver)
+      @thumbnail_scraper = ThumbnailScraper.new(@http_receiver)
     end
 
     describe "#image_to_thumbnail_for_url" do
@@ -16,13 +16,13 @@ module ThumbnailFu
           @webpage = mock("webpage")
           @image = mock("image")
           @webpage.stub!(:open_graph_image_url).and_return(@image_url)
-          @thumbnail_fu.stub!(:create_image).with(@image_url).and_return(@image)
+          @thumbnail_scraper.stub!(:create_image).with(@image_url).and_return(@image)
           @webpage.stub!(:has_open_graph_image?).and_return(true)
           @http_receiver.stub!(:receive_webpage).with(@page_url).and_return(@webpage)
         end
 
         it "should return image" do
-          @thumbnail_fu.image_to_thumbnail_for_url(@page_url).should == @image
+          @thumbnail_scraper.image_to_thumbnail_for_url(@page_url).should == @image
         end
       end
 
@@ -35,12 +35,12 @@ module ThumbnailFu
           @webpage.stub!(:has_open_graph_image?).and_return(false)
           @webpage.stub!(:linked_image_url).and_return(@image_url)
           @webpage.stub!(:has_linked_image?).and_return(true)
-          @thumbnail_fu.stub!(:create_image).with(@image_url).and_return(@image)
+          @thumbnail_scraper.stub!(:create_image).with(@image_url).and_return(@image)
           @http_receiver.stub!(:receive_webpage).with(@page_url).and_return(@webpage)
         end
 
         it "should return image" do
-          @thumbnail_fu.image_to_thumbnail_for_url(@page_url).should == @image
+          @thumbnail_scraper.image_to_thumbnail_for_url(@page_url).should == @image
         end
       end
 
@@ -51,20 +51,20 @@ module ThumbnailFu
           @webpage.stub!(:has_open_graph_image?).and_return(false)
           @webpage.stub!(:has_linked_image?).and_return(false)
           @webpage.stub!(:attached_images_urls).and_return([:first, :second, :third])
-          @thumbnail_fu.stub!(:create_image).and_return(:image)
+          @thumbnail_scraper.stub!(:create_image).and_return(:image)
           @http_receiver.stub!(:receive_webpage).with(@page_url).and_return(@webpage)
           @http_receiver.stub!(:receive_image).with(:image).and_return(:image_content)
-          @thumbnail_fu.stub!(:select_best_possible_image_to_scrap).and_return(:image)
+          @thumbnail_scraper.stub!(:select_best_possible_image_to_scrap).and_return(:image)
         end
 
         it "should use Website#attached_images_urls to get all images" do
           @webpage.should_receive(:attached_images_urls).and_return([:first, :second, :third])
-          @thumbnail_fu.image_to_thumbnail_for_url(@page_url)
+          @thumbnail_scraper.image_to_thumbnail_for_url(@page_url)
         end
 
         it "should select_best_possible_image_to_scrap" do
-          @thumbnail_fu.should_receive(:select_best_possible_image_to_scrap).with([:first, :second, :third]).and_return(:image)
-          @thumbnail_fu.image_to_thumbnail_for_url(@page_url)
+          @thumbnail_scraper.should_receive(:select_best_possible_image_to_scrap).with([:first, :second, :third]).and_return(:image)
+          @thumbnail_scraper.image_to_thumbnail_for_url(@page_url)
         end
       end
     end
@@ -76,30 +76,30 @@ module ThumbnailFu
         @image2 = mock("image")
         @image2.stub!(:area).and_return(1000)
         @images_urls = [:first, :second]
-        @thumbnail_fu.stub!(:create_image).with(:first).and_return(@image1)
-        @thumbnail_fu.stub!(:create_image).with(:second).and_return(@image2)
-        @thumbnail_fu.stub!(:select_valid_images).with([@image1, @image2]).and_return([@image1, @image2])
+        @thumbnail_scraper.stub!(:create_image).with(:first).and_return(@image1)
+        @thumbnail_scraper.stub!(:create_image).with(:second).and_return(@image2)
+        @thumbnail_scraper.stub!(:select_valid_images).with([@image1, @image2]).and_return([@image1, @image2])
       end
 
       it "should create all images" do
-        @thumbnail_fu.should_receive(:create_image).with(:first).and_return(@image1)
-        @thumbnail_fu.should_receive(:create_image).with(:second).and_return(@image2)
-        @thumbnail_fu.select_best_possible_image_to_scrap(@images_urls)
+        @thumbnail_scraper.should_receive(:create_image).with(:first).and_return(@image1)
+        @thumbnail_scraper.should_receive(:create_image).with(:second).and_return(@image2)
+        @thumbnail_scraper.select_best_possible_image_to_scrap(@images_urls)
       end
 
       it "should filter out invalid images" do
-        @thumbnail_fu.should_receive(:select_valid_images).with([@image1, @image2]).and_return([@image1, @image2])
-        @thumbnail_fu.select_best_possible_image_to_scrap(@images_urls)
+        @thumbnail_scraper.should_receive(:select_valid_images).with([@image1, @image2]).and_return([@image1, @image2])
+        @thumbnail_scraper.select_best_possible_image_to_scrap(@images_urls)
       end
 
       it "should be biggest (by area) image of valid ones" do
-        @thumbnail_fu.select_best_possible_image_to_scrap(@images_urls).should == @image2
+        @thumbnail_scraper.select_best_possible_image_to_scrap(@images_urls).should == @image2
       end
 
       context "for all invalid images" do
         it "should be nil" do
-          @thumbnail_fu.should_receive(:select_valid_images).and_return([])
-          @thumbnail_fu.select_best_possible_image_to_scrap(@images_urls).should be_nil
+          @thumbnail_scraper.should_receive(:select_valid_images).and_return([])
+          @thumbnail_scraper.select_best_possible_image_to_scrap(@images_urls).should be_nil
         end
       end
     end
@@ -108,18 +108,18 @@ module ThumbnailFu
       before :each do
         @image1 = mock("image")
         @image2 = mock("image")
-        @thumbnail_fu.stub!(:image_is_valid?).with(@image1).and_return(true)
-        @thumbnail_fu.stub!(:image_is_valid?).with(@image2).and_return(false)
+        @thumbnail_scraper.stub!(:image_is_valid?).with(@image1).and_return(true)
+        @thumbnail_scraper.stub!(:image_is_valid?).with(@image2).and_return(false)
       end
 
       it "should use #image_is_valid? to validate image" do
-        @thumbnail_fu.stub!(:image_is_valid?).with(@image1).and_return(true)
-        @thumbnail_fu.stub!(:image_is_valid?).with(@image2).and_return(false)
-        @thumbnail_fu.select_valid_images([@image1, @image2])
+        @thumbnail_scraper.stub!(:image_is_valid?).with(@image1).and_return(true)
+        @thumbnail_scraper.stub!(:image_is_valid?).with(@image2).and_return(false)
+        @thumbnail_scraper.select_valid_images([@image1, @image2])
       end
 
       it "should select only valid images" do
-        @thumbnail_fu.select_valid_images([@image1, @image2]).should == [@image1]
+        @thumbnail_scraper.select_valid_images([@image1, @image2]).should == [@image1]
       end
     end
 
@@ -136,7 +136,7 @@ module ThumbnailFu
         end
 
         it "should be false" do
-          @thumbnail_fu.image_is_valid?(@image).should be_false
+          @thumbnail_scraper.image_is_valid?(@image).should be_false
         end
       end
 
@@ -146,7 +146,7 @@ module ThumbnailFu
         end
 
         it "should be false" do
-          @thumbnail_fu.image_is_valid?(@image).should be_false
+          @thumbnail_scraper.image_is_valid?(@image).should be_false
         end
       end
 
@@ -157,7 +157,7 @@ module ThumbnailFu
         end
 
         it "should be false" do
-          @thumbnail_fu.image_is_valid?(@image).should be_false
+          @thumbnail_scraper.image_is_valid?(@image).should be_false
         end
       end
 
@@ -168,13 +168,13 @@ module ThumbnailFu
         end
 
         it "should be false" do
-          @thumbnail_fu.image_is_valid?(@image).should be_false
+          @thumbnail_scraper.image_is_valid?(@image).should be_false
         end
       end
 
       context "otherwise" do
         it "should be true" do
-          @thumbnail_fu.image_is_valid?(@image).should be_true
+          @thumbnail_scraper.image_is_valid?(@image).should be_true
         end
       end
     end

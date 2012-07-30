@@ -1,7 +1,7 @@
-require 'thumbnail_fu_helper'
-require 'thumbnail_fu/http_receiver'
+require 'thumbnail_scraper_helper'
+require 'thumbnail_scraper/http_receiver'
 
-module ThumbnailFu
+module ThumbnailScraper
   describe HttpReceiver do
     before :each do
       @http_receiver = HttpReceiver.new

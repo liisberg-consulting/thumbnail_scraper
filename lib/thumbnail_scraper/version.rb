@@ -1,3 +1,3 @@
-module ThumbnailFu
+module ThumbnailScraper
   VERSION = "0.0.1"
 end

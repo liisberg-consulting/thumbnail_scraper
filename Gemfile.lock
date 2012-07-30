@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    thumbnail_fu (0.0.1)
+    thumbnail_scraper (0.0.1)
       fastimage
       httpclient
       nokogiri
@@ -32,5 +32,5 @@ PLATFORMS
 
 DEPENDENCIES
   rspec
-  thumbnail_fu!
+  thumbnail_scraper!
   webmock

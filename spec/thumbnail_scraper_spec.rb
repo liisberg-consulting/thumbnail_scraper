@@ -1,9 +1,9 @@
-require 'thumbnail_fu_helper'
-require 'thumbnail_fu'
+require 'thumbnail_scraper_helper'
+require 'thumbnail_scraper'
 
-describe ThumbnailFu::ThumbnailFu do
+describe ThumbnailScraper::ThumbnailScraper do
   before :each do
-    @thumbnail_scraper = ThumbnailFu::ThumbnailFu.new
+    @thumbnail_scraper = ThumbnailScraper::ThumbnailScraper.new
   end
 
   context "for page with og:image" do

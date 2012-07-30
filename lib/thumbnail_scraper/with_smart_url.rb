@@ -1,6 +1,6 @@
 require 'uri'
 
-module ThumbnailFu
+module ThumbnailScraper
   module WithSmartUrl
     def url=(value)
       if value.is_a?(URI)

@@ -1,7 +1,7 @@
-require 'thumbnail_fu/with_smart_url'
+require 'thumbnail_scraper/with_smart_url'
 require 'fastimage'
 
-module ThumbnailFu
+module ThumbnailScraper
   class Image
     include WithSmartUrl
 

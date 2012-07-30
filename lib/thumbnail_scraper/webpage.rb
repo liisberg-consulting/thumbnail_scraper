@@ -1,7 +1,7 @@
-require 'thumbnail_fu/with_smart_url'
+require 'thumbnail_scraper/with_smart_url'
 require 'nokogiri'
 
-module ThumbnailFu
+module ThumbnailScraper
   class Webpage
     attr_accessor :body
 

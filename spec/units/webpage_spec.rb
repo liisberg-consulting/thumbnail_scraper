@@ -1,7 +1,7 @@
-require 'thumbnail_fu_helper'
-require 'thumbnail_fu/webpage'
+require 'thumbnail_scraper_helper'
+require 'thumbnail_scraper/webpage'
 
-module ThumbnailFu
+module ThumbnailScraper
   describe Webpage do
     before :each do
       @url = "http://www.example.com/site/site.html"

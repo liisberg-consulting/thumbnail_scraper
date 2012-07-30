@@ -1,7 +1,7 @@
-require 'thumbnail_fu/webpage'
+require 'thumbnail_scraper/webpage'
 require 'httpclient'
 
-module ThumbnailFu
+module ThumbnailScraper
   class HttpReceiver
     attr_accessor :http_client
 

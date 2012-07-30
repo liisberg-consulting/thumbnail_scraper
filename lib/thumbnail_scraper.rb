@@ -1,9 +1,9 @@
-require "thumbnail_fu/version"
-require 'thumbnail_fu/image'
-require 'thumbnail_fu/http_receiver'
+require "thumbnail_scraper/version"
+require 'thumbnail_scraper/image'
+require 'thumbnail_scraper/http_receiver'
 
-module ThumbnailFu
-  class ThumbnailFu
+module ThumbnailScraper
+  class ThumbnailScraper
     attr_accessor :http_receiver
 
     def initialize(receiver=HttpReceiver.new)
