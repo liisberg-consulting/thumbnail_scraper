@@ -19,4 +19,19 @@ ThumbnailScraper#image_to_thumbnail_url method returns Image object, which conta
 Suggested usage
 ---------------
 
-We encourage you to use it with delayed_job as jobs queue and dragonfly as image storage tool.
+We encourage you to use it with delayed_job as jobs queue and dragonfly as image storage tool. Your job could look like following:
+
+```ruby
+require 'thumbnail_scraper'
+
+module Jobs
+  class ScrapThumbnailJob < Struct.new(:page)
+    def perform
+      scraper = ::ThumbnailScraper::ThumbnailScraper.new
+      image = scraper.image_to_thumbnail_for_url(page.url)
+      page.thumbnail_url = image.url.to_s
+      page.save!
+    end 
+  end 
+end
+```
