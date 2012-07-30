@@ -6,6 +6,8 @@ detect, fetch and generate a thumbnail for any url
 Basic usage
 -------------
 ```ruby
+require 'thumbnail_scraper'
+
 include ThumbnailScraper
 scraper = ThumbnailScraper.new
 image = scraper.image_to_thumbnail_url("http://www.monibuds.com/")
