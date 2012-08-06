@@ -97,9 +97,9 @@ module ThumbnailScraper
       end
 
       context "for all invalid images" do
-        it "should be nil" do
+        it "should raise NoValidThumbnail error" do
           @thumbnail_scraper.should_receive(:select_valid_images).and_return([])
-          @thumbnail_scraper.select_best_possible_image_to_scrap(@images_urls).should be_nil
+          expect{@thumbnail_scraper.select_best_possible_image_to_scrap(@images_urls)}.to raise_error(NoValidThumbnail)
         end
       end
     end

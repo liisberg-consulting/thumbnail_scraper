@@ -49,4 +49,16 @@ describe ThumbnailScraper::ThumbnailScraper do
       end
     end
   end
+
+  context "for page without valid images" do
+    before :each do
+      stub_request(:get, "www.example.com/no_images.html").to_return(:body => asset_file("no_images.html"))
+    end
+
+    describe "#image_to_thumbnail_for_url" do
+      it "should raise NoValidThumbnail exception" do
+        expect{@thumbnail_scraper.image_to_thumbnail_for_url("http://www.example.com/no_images.html")}.to raise_error(ThumbnailScraper::NoValidThumbnail)
+      end
+    end
+  end
 end

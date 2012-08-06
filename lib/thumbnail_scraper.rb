@@ -1,6 +1,7 @@
 require "thumbnail_scraper/version"
 require 'thumbnail_scraper/image'
 require 'thumbnail_scraper/http_receiver'
+require 'thumbnail_scraper/no_valid_thumbnail'
 
 module ThumbnailScraper
   class ThumbnailScraper
@@ -29,7 +30,7 @@ module ThumbnailScraper
     def select_best_possible_image_to_scrap(images_urls)
       images = images_urls.map{|image_url| create_image(image_url)}
       valid_images = select_valid_images(images)
-      return nil if valid_images.empty?
+      raise NoValidThumbnail.new if valid_images.empty?
       valid_images.max{|a, b| a.area <=> b.area}
     end
 
