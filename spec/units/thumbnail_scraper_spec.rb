@@ -108,13 +108,13 @@ module ThumbnailScraper
       before :each do
         @image1 = mock("image")
         @image2 = mock("image")
-        @thumbnail_scraper.stub!(:image_is_valid?).with(@image1).and_return(true)
-        @thumbnail_scraper.stub!(:image_is_valid?).with(@image2).and_return(false)
+        @image1.stub!(:exists?).and_return(true)
+        @image2.stub!(:exists?).and_return(true)
+        @image1.stub!(:valid?).and_return(true)
+        @image2.stub!(:valid?).and_return(false)
       end
 
       it "should use #image_is_valid? to validate image" do
-        @thumbnail_scraper.stub!(:image_is_valid?).with(@image1).and_return(true)
-        @thumbnail_scraper.stub!(:image_is_valid?).with(@image2).and_return(false)
         @thumbnail_scraper.select_valid_images([@image1, @image2])
       end
 
@@ -123,9 +123,10 @@ module ThumbnailScraper
       end
     end
 
-    describe "#image_is_valid?" do
+    describe "Image#valid?" do
       before :each do
-        @image = mock("image")
+        @image = Image.new('http://example.com/image.png')
+        @image.stub!(:exists?).and_return(true)
         @image.stub!(:width).and_return(100)
         @image.stub!(:height).and_return(100)
       end
@@ -136,7 +137,7 @@ module ThumbnailScraper
         end
 
         it "should be false" do
-          @thumbnail_scraper.image_is_valid?(@image).should be_false
+          @image.valid?.should be_false
         end
       end
 
@@ -146,7 +147,7 @@ module ThumbnailScraper
         end
 
         it "should be false" do
-          @thumbnail_scraper.image_is_valid?(@image).should be_false
+          @image.valid?.should be_false
         end
       end
 
@@ -157,7 +158,7 @@ module ThumbnailScraper
         end
 
         it "should be false" do
-          @thumbnail_scraper.image_is_valid?(@image).should be_false
+          @image.valid?.should be_false
         end
       end
 
@@ -168,13 +169,13 @@ module ThumbnailScraper
         end
 
         it "should be false" do
-          @thumbnail_scraper.image_is_valid?(@image).should be_false
+          @image.valid?.should be_false
         end
       end
 
       context "otherwise" do
         it "should be true" do
-          @thumbnail_scraper.image_is_valid?(@image).should be_true
+          @image.valid?.should be_true
         end
       end
     end

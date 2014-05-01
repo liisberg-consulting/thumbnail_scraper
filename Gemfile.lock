@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    thumbnail_scraper (0.0.1)
+    thumbnail_scraper (0.0.2)
       fastimage
       httpclient
       nokogiri
@@ -12,9 +12,11 @@ GEM
     addressable (2.2.8)
     crack (0.3.1)
     diff-lcs (1.1.3)
-    fastimage (1.2.13)
-    httpclient (2.2.5)
-    nokogiri (1.5.3)
+    fastimage (1.5.2)
+    httpclient (2.3.4.1)
+    mini_portile (0.5.3)
+    nokogiri (1.6.1)
+      mini_portile (~> 0.5.0)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)

@@ -3,9 +3,9 @@ require File.expand_path('../lib/thumbnail_scraper/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Jeppe Liisberg", "Jan Filipowski"]
-  gem.email         = ["jachuf@gmail.com"]
-  gem.description   = %q{detect, fetch and generate a thumbnail for any url and store it on s3}
-  gem.summary       = %q{detect, fetch and generate a thumbnail for any url and store it on s3}
+  gem.email         = ["jeppe@liisberg.net"]
+  gem.description   = %q{detect and fetch an image suitable as a thumbnail for any url}
+  gem.summary       = %q{detect and fetch an image suitable as a thumbnail for any url}
   gem.homepage      = ""
 
   gem.add_development_dependency "rspec"

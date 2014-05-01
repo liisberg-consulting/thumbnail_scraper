@@ -59,7 +59,13 @@ module ThumbnailScraper
 
     def attached_images_urls
       elements = document.xpath("//img/@src")
-      elements.map{|element| image_url(element.value)}
+      elements.map do |element|
+        if element.value.start_with?("http://") || element.value.start_with?("https://")
+          image_url(element.value)
+        else
+          image_url("#{url.scheme}://#{url.host}#{element.value.gsub(/^\/?/,'/')}")
+        end
+      end
     end
   end
 end

@@ -35,11 +35,7 @@ module ThumbnailScraper
     end
 
     def select_valid_images(images)
-      images.select{|image| image_is_valid?(image)}
-    end
-
-    def image_is_valid?(image)
-      image.width >= 50 && image.height >= 50 && image.width.to_f / image.height.to_f <= 3 && image.height.to_f / image.width.to_f <= 3
+      images.select(&:exists?).select(&:valid?)
     end
   end
 end

@@ -160,9 +160,9 @@ module ThumbnailScraper
       context "with images in body" do
         before :each do
           @webpage.body = File.read(asset_file_path("images.html"))
-          @webpage.stub!(:image_url).with("/images/subcatalog/smallest.jpg").and_return(:smallest_url)
-          @webpage.stub!(:image_url).with("/images/kitty.jpg").and_return(:kitty_url)
-          @webpage.stub!(:image_url).with("images/biggest.jpg").and_return(:biggest_url)
+          @webpage.stub!(:image_url).with("http://www.example.com/images/subcatalog/smallest.jpg").and_return(:smallest_url)
+          @webpage.stub!(:image_url).with("http://www.example.com/images/kitty.jpg").and_return(:kitty_url)
+          @webpage.stub!(:image_url).with("http://www.example.com/images/biggest.jpg").and_return(:biggest_url)
         end
 
         it "should return all urls of found images" do
